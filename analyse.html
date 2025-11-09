@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chargement de l'analyse...</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2d5016 0%, #3a7233 50%, #4a9d5f 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        .loading-container {
+            text-align: center;
+            max-width: 500px;
+            padding: 0 20px;
+        }
+
+        .spinner {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .data-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .data-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 0;
+            font-size: 1.1rem;
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        .data-item.active {
+            animation: slideIn 0.5s forwards;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .icon {
+            font-size: 1.5rem;
+        }
+
+        .checkmark {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            color: #2d5016;
+            font-weight: bold;
+            line-height: 20px;
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .checkmark.show {
+            animation: pop 0.3s forwards;
+        }
+
+        @keyframes pop {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: white;
+            border-radius: 10px;
+            width: 0;
+            animation: progress 3s ease-in-out forwards;
+        }
+
+        @keyframes progress {
+            to { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <div class="spinner"></div>
+        <h2>Analyse en cours...</h2>
+        
+        <ul class="data-list">
+            <li class="data-item" id="item1">
+                <span class="icon">🌍</span>
+                <span>Récupération des données du terrain</span>
+                <span class="checkmark" id="check1">✓</span>
+            </li>
+            <li class="data-item" id="item2">
+                <span class="icon">🌤️</span>
+                <span>Analyse des données météorologiques</span>
+                <span class="checkmark" id="check2">✓</span>
+            </li>
+            <li class="data-item" id="item3">
+                <span class="icon">📋</span>
+                <span>Consultation des cadastres</span>
+                <span class="checkmark" id="check3">✓</span>
+            </li>
+        </ul>
+
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
+
+    <script>
+        // Animation séquentielle des éléments
+        setTimeout(() => {
+            document.getElementById('item1').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('check1').classList.add('show');
+            }, 400);
+        }, 300);
+
+        setTimeout(() => {
+            document.getElementById('item2').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('check2').classList.add('show');
+            }, 400);
+        }, 1100);
+
+        setTimeout(() => {
+            document.getElementById('item3').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('check3').classList.add('show');
+            }, 400);
+        }, 1900);
+
+        // Redirection après 3 secondes
+        setTimeout(() => {
+            window.location.href = 'pagesol.html';
+        }, 2000);
+    </script>
+</body>
+</html>

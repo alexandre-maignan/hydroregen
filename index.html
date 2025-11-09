@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solutions Nature - Réaménagement de Bassins Versants</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            color: #2c3e50;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><path d="M0,300 Q300,250 600,300 T1200,300 L1200,600 L0,600 Z" fill="rgba(255,255,255,0.05)"/></svg>') no-repeat bottom;
+            background-size: cover;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            color: white;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: rgba(255,255,255,0.95);
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 45px;
+            background: white;
+            color: #2d5016;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        /* SECTION EXPLICATION */
+        .explanation {
+            padding: 80px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .explanation h2 {
+            font-size: 2.5rem;
+            color: #2d5016;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            color: #2d5016;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: #555;
+            font-size: 1rem;
+        }
+
+        /* SECTION COMMENT ÇA MARCHE */
+        .how-it-works {
+            background: #f8f9fa;
+            padding: 80px 20px;
+        }
+
+        .how-it-works-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .how-it-works h2 {
+            font-size: 2.5rem;
+            color: #2d5016;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .step-number {
+            background: #2d5016;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            color: #2d5016;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+        }
+
+        .step-content p {
+            color: #555;
+        }
+
+        /* CTA FINAL */
+        .cta-section {
+            background: #2d5016;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button-secondary {
+            display: inline-block;
+            padding: 15px 40px;
+            background: white;
+            color: #2d5016;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button-secondary:hover {
+            transform: scale(1.05);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            #button_cta {
+                display: none;
+
+            }
+
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .explanation h2,
+            .how-it-works h2 {
+                font-size: 2rem;
+            }
+
+            .step {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+
+
+
+
+
+
+        /* PARTENAIRES */
+.partners {
+    background: #f8f9fa;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.partners h2 {
+    font-size: 2rem;
+    color: #2d5016;
+    margin-bottom: 40px;
+}
+
+.partners-logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    align-items: center;
+}
+
+.partners-logos img {
+    height: 100px;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.partners-logos img:hover {
+    transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+    .partners-logos {
+        gap: 20px;
+    }
+
+    .partners-logos img {
+        height: 50px;
+    }
+}
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>🌿 HydroRegen</h1>
+            <p class="hero-subtitle">
+                Diagnostiquer, régénérer, préserver : l’eau au cœur du territoire.
+            </p>
+            <a href="#explication" class="cta-button">Découvrir comment</a>
+        </div>
+    </section>
+
+
+    <section class="partners">
+    <div class="partners-content" id="explication">
+        <h2>Nos partenaires</h2>
+        <div class="partners-logos">
+            <img src="https://www.ladapt.net/sites/all/themes/ladapt/images/logo.jpg" alt="Partenaire 1">
+            <img src="https://aides-territoires-prod-2.s3.fr-par.scw.cloud/aides-territoires-prod/backers/careseauvcmjn-1745591289.jpg" alt="Partenaire 2">
+            <img src="https://www.muttersholtz.fr/wp-content/uploads/2024/11/Logo-AERM_SS_Marianne.png" alt="Partenaire 3">
+        </div>
+    </div>
+
+        <div class="partners-content" >
+        <h2>Nos potentiels partenaires privés </h2>
+        <div class="partners-logos">
+            <img src="https://www.nxo.eu/wp-content/uploads/2024/12/edf_logo.png" alt="Partenaire 1">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/Logo_de_la_marque_Kronenbourg_utilis%C3%A9_depuis_2019.jpg" alt="Partenaire 2">
+        </div>
+</section>
+
+    <!-- EXPLICATION -->
+    <section class="explanation" >
+        <h2>Le concept en 3 points</h2>
+        
+        <div class="cards">
+            <div class="card">
+                <div class="card-icon">🌊</div>
+                <h3>Votre problème</h3>
+                <p>
+                    Érosion, inondations, perte de biodiversité dans votre bassin versant. 
+                    Les solutions conventionnelles coûtent cher et dégradent l'écosystème.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🌱</div>
+                <h3>Notre approche</h3>
+                <p>
+                    Aménager les paysages pour réstaurer le cycle de l'eau.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">✅</div>
+                <h3>Le résultat</h3>
+                <p>
+                    Un écosystème qui se renforce avec le temps, moins d'entretien, 
+                    et un environnement vivant pour la faune locale.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMMENT ÇA MARCHE -->
+    <section class="how-it-works">
+        <div class="how-it-works-content">
+            <h2>Comment ça marche</h2>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Analysez votre terrain</h3>
+                        <p>Décrivez votre bassin versant : type de sol, problèmes rencontrés, superficie</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Recevez des solutions adaptées</h3>
+                        <p>Notre outil propose des solutions bassées sur la nature adaptées à votre contexte</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Consultez les fiches détaillées</h3>
+                        <p>Pour chaque solution : description, avantages, inconvénients, et retours terrain</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Passez à l'action</h3>
+                        <p>Toutes les infos pour démarrer votre projet de restauration écologique</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="cta-section">
+        <h2>Prêt à restaurer votre bassin versant ?</h2>
+        <p>Commencez l'analyse en 2 minutes</p>
+        <a href="map.html" class="cta-button-secondary" id="button_cta">Démarrer maintenant</a>
+    </section>
+</body>
+<script type="text/javascript">
+    
+
+
+    
+
+
+
+</script>
+
+
+</html>

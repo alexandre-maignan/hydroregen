@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sélection d'Activité - Engagement Écologique</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e4d2b 0%, #2d6a3e 50%, #3d8b54 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            color: #1e4d2b;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .eco-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #2d6a3e, #4CAF50);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            color: #1e4d2b;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+        }
+
+        select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #4CAF50;
+            border-radius: 10px;
+            font-size: 1em;
+            background-color: white;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234CAF50' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            padding-right: 40px;
+        }
+
+        select:hover {
+            border-color: #2d6a3e;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #2d6a3e;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #2d6a3e, #4CAF50);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 10px;
+            border-left: 5px solid #4CAF50;
+            display: none;
+        }
+
+        .result h3 {
+            color: #1e4d2b;
+            margin-bottom: 15px;
+        }
+
+        .result p {
+            color: #2d6a3e;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .leaf-icon {
+            color: #4CAF50;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌱 Votre Projet Écologique</h1>
+            <div class="eco-badge">💚 Engagement pour la planète</div>
+        </div>
+
+        <form id="ecoForm">
+            <div class="form-group">
+                <label for="activite"><span class="leaf-icon">🍃</span>Activité / Profession</label>
+                <select id="activite" required>
+                    <option value="">-- Sélectionnez votre activité --</option>
+                    <option value="Agriculture biologique">Agriculteur/exploitant agricole</option>
+                    <option value="Énergies renouvelables">Collectivité territoriale</option>
+                    <option value="Éco-construction">Gestionnaire d'espaces naturels</option>
+                    <option value="Consulting environnemental">Consulting environnemental</option>
+                    <option value="Commerce équitable">Bureau d'étude</option>
+                    <option value="Éducation environnementale">Éducation environnementale</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="objectif"><span class="leaf-icon">🎯</span>Objectif Principal</label>
+                <select id="objectif" required>
+                    <option value="">-- Sélectionnez votre objectif --</option>
+                    <option value="Développer un projet local">Lutter contre la sécheresse</option>
+                    <option value="Créer une entreprise verte">Prévenir les inondations</option>
+                    <option value="Réduire l'empreinte carbone">Réduire l'empreinte carbone</option>
+                    <option value="Protection de la biodiversité">Coulées d'eau boueuse</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="budget"><span class="leaf-icon">🎯</span>Objectif Secondaire</label>
+                <select id="budget" required>
+                    <option value="">-- Sélectionnez votre objectif --</option>
+                    <option value="Développer un projet local">Lutter contre la sécheresse</option>
+                    <option value="Créer une entreprise verte">Prévenir les inondations</option>
+                    <option value="Réduire l'empreinte carbone">Réduire l'empreinte carbone</option>
+                    <option value="Protection de la biodiversité">Coulées d'eau boueuse</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn">🌿 Valider mon projet</button>
+        </form>
+
+        <div class="result" id="result">
+            <h3>✅ Récapitulatif de votre projet</h3>
+            <p><strong>Activité :</strong> <span id="resultActivite"></span></p>
+            <p><strong>Objectif :</strong> <span id="resultObjectif"></span></p>
+            <p><strong>Budget :</strong> <span id="resultBudget"></span></p>
+        </div>
+    </div>
+
+<script>
+document.getElementById('ecoForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const activite = document.getElementById('activite').value;
+    const objectif = document.getElementById('objectif').value;
+    const budget = document.getElementById('budget').value;
+
+    if (activite && objectif && budget) {
+        // On peut transmettre les données via l’URL (méthode GET simulée)
+        const params = new URLSearchParams({
+            activite: activite,
+            objectif: objectif,
+            budget: budget
+        });
+
+        // Redirection vers une page locale
+        window.location.href = "analyse.html?" + params.toString();
+        // Exemple : file:///C:/mon_projet/resultat.html?activite=agriculture&objectif=infiltration&budget=1000
+    }
+});
+</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

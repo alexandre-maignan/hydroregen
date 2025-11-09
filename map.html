@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Bassin versant interactif</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<style>
+  body, html { margin:0; padding:0; height:100%; font-family: 'Segoe UI', sans-serif; }
+  #map { height: 100%; width: 100%; }
+
+  #toolbar {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    border-radius: 12px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  #toolbar input[type="text"] {
+    padding: 6px 10px;
+    border-radius: 50px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    width: 220px;
+    outline: none;
+  }
+
+  #toolbar button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    background: #007bff;
+    color: white;
+    transition: all 0.2s ease;
+  }
+
+  #toolbar button:hover { background: #0056b3; }
+
+  #toolbar button i { font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div id="toolbar">
+  <button id="drawBtn"><i class="fas fa-pencil-alt"></i> Dessiner</button>
+  <button id="geoBtn"><i class="fas fa-location-dot"></i> Me géolocaliser</button>
+  <input type="text" id="searchInput" placeholder="Rechercher une ville ou adresse"/>
+  <button id="searchBtn"><i class="fas fa-search"></i> Rechercher</button>
+</div>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+const map = L.map('map').setView([48.284389, 7.480639], 14);
+
+
+// --- Calques ---
+const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' });
+const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: '© ESRI' });
+const topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { attribution: '© OpenTopoMap' });
+osm.addTo(map);
+L.control.layers({ "OSM": osm, "Satellite": satellite, "Topo": topo }).addTo(map);
+
+// --- Variables dessin ---
+let drawing = false;
+let points = [];
+let polygon = null;
+let tempLine = null;
+let snapping = false;
+const SNAP_DISTANCE = 50; // mètres
+
+// --- UI ---
+const drawBtn = document.getElementById('drawBtn');
+const geoBtn = document.getElementById('geoBtn');
+const searchBtn = document.getElementById('searchBtn');
+const searchInput = document.getElementById('searchInput');
+
+// --- Dessin interactif ---
+drawBtn.addEventListener('click', () => {
+  drawing = !drawing;
+  if (drawing) {
+    points = [];
+    if (polygon) map.removeLayer(polygon);
+    polygon = null;
+    drawBtn.innerHTML = '<i class="fas fa-pencil-alt"></i> Dessin activé';
+    map.on('click', addPoint);
+    map.on('mousemove', followMouse);
+  } else {
+    drawBtn.innerHTML = '<i class="fas fa-pencil-alt"></i> Dessiner';
+    map.off('click', addPoint);
+    map.off('mousemove', followMouse);
+    if (points.length > 2) closePolygon();
+  }
+});
+
+function addPoint(e) {
+  let latlng = e.latlng;
+
+  // Snap au premier point si proche
+  if (points.length > 2 && latlng.distanceTo(points[0]) < SNAP_DISTANCE) latlng = points[0];
+
+  // Clic sur premier point pour fermer
+  if (points.length > 2 && latlng.equals(points[0])) {
+    closePolygon();
+    drawing = false;
+    drawBtn.innerHTML = '<i class="fas fa-pencil-alt"></i> Dessiner';
+    map.off('click', addPoint);
+    map.off('mousemove', followMouse);
+    return;
+  }
+
+  points.push(latlng);
+  redrawPolygon();
+}
+
+function followMouse(e) {
+  if (!drawing || points.length === 0) return;
+  let latlng = e.latlng;
+  snapping = false;
+
+  if (points.length > 2 && latlng.distanceTo(points[0]) < SNAP_DISTANCE) {
+    latlng = points[0];
+    snapping = true;
+  }
+
+  if (tempLine) map.removeLayer(tempLine);
+  tempLine = L.polyline([...points, latlng], {
+    color: snapping ? 'limegreen' : '#1e90ff',
+    dashArray: '5,5',
+    weight: 3
+  }).addTo(map);
+}
+
+function redrawPolygon() {
+  if (polygon) map.removeLayer(polygon);
+  polygon = L.polygon(points, {
+    color: '#1e90ff',
+    fillColor: 'rgba(30,144,255,0.3)',
+    weight: 3
+  }).addTo(map);
+}
+
+function closePolygon() {
+  if (tempLine) { 
+    map.removeLayer(tempLine); 
+    tempLine = null; 
+  }
+  redrawPolygon();
+  console.log("Polygone fermé ! Coordonnées :", points.map(p => [p.lat, p.lng]));
+  alert("Bassin sélectionné !");
+  
+  // --- Redirection vers la nouvelle page ---
+  // Remplace 'analyse.html' par le lien souhaité :
+  window.location.href = "param.html";
+}
+
+// --- Géolocalisation ---
+geoBtn.addEventListener('click', () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(pos => {
+      const lat = pos.coords.latitude;
+      const lng = pos.coords.longitude;
+      map.setView([lat, lng], 14);
+      const marker = L.circleMarker([lat,lng], { radius: 8, color: 'red', fillColor:'red', fillOpacity:0.5 }).addTo(map);
+      marker.bindPopup("Vous êtes ici").openPopup();
+    }, err => { alert("Impossible d'obtenir la géolocalisation : " + err.message); });
+  } else alert("Géolocalisation non supportée.");
+});
+
+// --- Recherche adresse ---
+searchBtn.addEventListener('click', async () => {
+  const query = searchInput.value.trim();
+  if (!query) return;
+  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
+  try {
+    const resp = await fetch(url);
+    const data = await resp.json();
+    if (data.length > 0) {
+      const lat = parseFloat(data[0].lat);
+      const lon = parseFloat(data[0].lon);
+      map.setView([lat, lon], 14);
+      L.marker([lat, lon]).addTo(map).bindPopup(data[0].display_name).openPopup();
+    } else alert("Aucun résultat trouvé.");
+  } catch(err) { console.error(err); alert("Erreur lors de la recherche."); }
+});
+</script>
+
+</body>
+</html>
+
+
+

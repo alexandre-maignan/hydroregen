@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnostic Zone Naturelle - Solutions Basées sur la Nature</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* ===== PAGE HERO ===== */
+    
+        /* ===== PAGE SOLUTIONS ===== */
+        .solutions-page {
+            display: none;
+            min-height: 100vh;
+            background: #f5f7fa;
+        }
+
+        .solutions-page.active {
+            display: block;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+        }
+
+        .back-button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-3px);
+        }
+
+        .intro-section {
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .intro-section h2 {
+            font-size: 2.2rem;
+            color: #2d5016;
+            margin-bottom: 1rem;
+        }
+
+        .intro-section p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0 4rem;
+        }
+
+        .solution-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .solution-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-color: #4a7c2c;
+        }
+
+        .solution-card h3 {
+            color: #2d5016;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .solution-icon {
+            font-size: 1.8rem;
+            margin-right: 0.5rem;
+        }
+
+        .solution-card p {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .solution-link {
+            display: inline-block;
+            color: #4a7c2c;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 0.6rem 1.5rem;
+            border: 2px solid #4a7c2c;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .solution-link:hover {
+            background: #4a7c2c;
+            color: white;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .solutions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+
+
+    <!-- PAGE SOLUTIONS --> 
+
+        <div class="container">
+            <div class="intro-section">
+                <h2>Solutions identifiées pour votre parcelle</h2>
+            </div>
+
+            <div class="solutions-grid" id="solutionsGrid">
+                <!-- Les solutions seront générées par JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Base de données des solutions
+        const solutions = [
+            {
+                nom: "Mare",
+                description: "Dépressions (mares) et noues végétalisées conçues pour capter et infiltrer les eaux de ruissellement ; noues linéaires souvent en bordure de voirie ou parcelle.",
+                icon: "🌿",
+                lien: "details.html"
+            },
+            {
+                nom: "Génie végétal en pente",
+                description: "Stabilisation des pentes par plantation stratégique d'espèces végétales aux systèmes racinaires profonds. Réduit les glissements de terrain et améliore l'infiltration de l'eau dans le sol.",
+                icon: "⛰️",
+                lien: "#pente"
+            },
+            {
+                nom: "Terrasses / micro-terrasses",
+                description: "Aménagements en marches/plates-formes sur pente pour retenir sol et eau ; micro-terrasses pour petites surfaces ; réduisent érosion et permettent cultures sur pente.",
+                icon: "🌿",
+                lien: "#toitures"
+            },
+            {
+                nom: "Fascinage hydraulique",
+                description: "Système de fascines immergées pour créer des zones de ralentissement des courants et favoriser la sédimentation naturelle. Protège les berges et crée des habitats pour la faune aquatique.",
+                icon: "💧",
+                lien: "#hydraulique"
+            },
+
+        ];
+
+        // Fonction pour générer les cartes de solutions
+        function generateSolutions() {
+            const grid = document.getElementById('solutionsGrid');
+            grid.innerHTML = '';
+            
+            solutions.forEach(solution => {
+                const card = document.createElement('div');
+                card.className = 'solution-card';
+                card.innerHTML = `
+                    <h3>
+                        <span class="solution-icon">${solution.icon}</span>
+                        ${solution.nom}
+                    </h3>
+                    <p>${solution.description}</p>
+                    <a href="${solution.lien}" class="solution-link">
+                        En savoir plus →
+                    </a>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Fonction pour afficher la page solutions
+        function showSolutions() {
+            generateSolutions();
+        }
+
+        showSolutions();
+
+   
+    </script>
+</body>
+</html>
