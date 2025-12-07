@@ -5,13 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solutions Nature - Réaménagement de Bassins Versants</title>
 
-<script type="module">
-import initSmoothScroll from "https://cdn.jsdelivr.net/gh/alexandre-maignan/tools/smooth-scroll.js";
+<script src="https://cdn.jsdelivr.net/gh/alexandre-maignan/smooth-scroll/smooth-scroll.js"></script>
+<script>
 
 initSmoothScroll({
-    ease: 0.12,
-    scrollMult: 1.2,
-    offset: 0
+    ease: 0.06,             // vitesse du lissage du scroll (plus haut = plus rapide)
+    scrollMult: 1.5,         // intensité de la molette (1 = normal)
+
+    MOBILE_BREAKPOINT: 768,     // désactive le script sous 768px (mobile)
+    minPageHeightRatio: 1.05,   // désactive si page trop petite
+
+    DEBUG: false,               // active les logs console si besoin
 });
 </script>
     
@@ -417,6 +421,7 @@ initSmoothScroll({
 
 
 </html>
+
 
 
 
